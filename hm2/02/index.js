@@ -10,17 +10,16 @@
 })()
 
 function isSomeTrue(source, filterFn){
-	var checkNum = false;
 	if (source.length === 0) {
 		throw new Error('EMPTY ARRAY');
 	}
 		for (var i = 0; i < source.length; i++) {
 			
 			if (filterFn(source[i])) {
-				checkNum = true
+				return true;
 			}
 		}
-		return checkNum
+		return false;
 }
 
 function isNumber(val){ 
