@@ -13,13 +13,12 @@ function isAllTrue(source, filterFn){
 	if (source.length === 0) {
 		throw new Error('EMPTY ARRAY');
 	}
-	var checkNum = true;
 		for (var i = 0; i < source.length; i++) {
 			if (!filterFn(source[i])) {
-				checkNum = false
+				return false;
 			}
 		}
-	return checkNum
+	return true;
 }
 
 function isNumber(val){ 
