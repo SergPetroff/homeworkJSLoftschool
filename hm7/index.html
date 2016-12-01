@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<style>
+		.alert {
+		  padding: 15px;
+		  border: 1px solid #d6e9c6;
+		  border-radius: 4px;
+		  background-color: #e43d08;
+		  max-width: 450px;
+
+		}
+		#sendCookie{
+			padding-bottom: 15px;
+		}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+	<div id="sendCookie">
+		<label for="nameCookie">Name</label>
+		<input id="nameCookie" type="text" name="nameCookie" class="inputnewCookie"><br>
+		<label for="valCookie">Value</label>
+		<input id="valCookie" type="text" name="valCookie" class="inputnewCookie">	<br>
+		<label for="experCookie">Expires</label>
+		<input id="experCookie" type="text" name="experCookie" class="inputnewCookie"><br>
+		 <button id="btnNewCook">Создать куку</button>
+	</div>
+	<table border="1px">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Value</th>
+				<th>Delete</th>
+			</tr>
+		</thead>
+		<tbody id="tbody">
+
+		</tbody>
+	</table>
+</div>
+<script type="text/javascript" src="index.js"></script>
+</body>
+</html>
