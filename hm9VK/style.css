@@ -1,0 +1,41 @@
+.container{
+
+}
+
+.header{
+	background-color:#ff8f6e;
+	border-top-left-radius:20px;
+	border-top-right-radius:20px;
+}
+.header h3{
+	padding: 15px;
+}
+
+.searchbar{
+	overflow: hidden;
+	background-color: #f1f1f1;
+}
+.searchbar input{
+	border-radius: 20px;
+}
+.leftsearch{
+	padding-left: 15px;
+	float: left;
+	display: inline-block;
+}
+
+.rightsearch{
+	padding-right: 15px;
+	float: right;
+	display: inline-block;
+}
+.leftcontentlist{
+	float: left;
+}
+
+.rightcontent{
+	float: right;
+}
+.wrapcontent{
+	overflow: hidden;
+}
