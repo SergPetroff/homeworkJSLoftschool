@@ -25,7 +25,9 @@ function getListFriends(){
 				
 			})
 			VK.api('friends.get',{'fields': 'bdate, photo_50'},function(response){
-				var listFriends = response.response
+				var listFriends = response.response;
+
+					listFriends.sort(function(a,b){return a.last_name>b.last_name ? 1 : -1})
 				lefttcontainer.innerHTML = leftttemplateFn({listfriends:listFriends});
 			})
 		})

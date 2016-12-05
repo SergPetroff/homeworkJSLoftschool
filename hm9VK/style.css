@@ -7,35 +7,48 @@
 	border-top-left-radius:20px;
 	border-top-right-radius:20px;
 }
-.header h3{
+.header div{
 	padding: 15px;
-}
-
+} 
 .searchbar{
-	overflow: hidden;
+	overflow: hidden; 
 	background-color: #f1f1f1;
+	padding: 10px;
 }
 .searchbar input{
 	border-radius: 20px;
 }
 .leftsearch{
 	padding-left: 15px;
-	float: left;
-	display: inline-block;
+	
 }
 
 .rightsearch{
 	padding-right: 15px;
-	float: right;
-	display: inline-block;
+	
 }
+
+/*
 .leftcontentlist{
 	float: left;
 }
 
 .rightcontent{
 	float: right;
-}
+} */
 .wrapcontent{
 	overflow: hidden;
+}
+
+.wrapcontent ul{
+	list-style: none;
+	max-height: 300px;
+    overflow-y:scroll; 
+}
+
+.wrapcontent ul li{
+	padding-bottom: 10px;
+}
+.wrapcontent ul li:hover{
+	background-color: #f1f1f1;
 }
