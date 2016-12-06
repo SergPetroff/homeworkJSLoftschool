@@ -1,6 +1,14 @@
 (function(){
 
 	getListFriends()
+	
+	var leftclick = document.getElementById("leftcontentlist");
+	leftclick.addEventListener("click",function(event){
+		let thisEl = event.target.parentElement;
+		userid = thisEl.dataset.userid;
+		console.log(getobjUser(userid));
+
+	})
 })();
 
 function getListFriends(){
@@ -28,10 +36,29 @@ function getListFriends(){
 				var listFriends = response.response;
 
 					listFriends.sort(function(a,b){return a.last_name>b.last_name ? 1 : -1})
-				lefttcontainer.innerHTML = leftttemplateFn({listfriends:listFriends});
+					
+					lefttcontainer.innerHTML = leftttemplateFn({listfriends:listFriends});
 			})
+			resolve();
 		})
 	}).then(function(){
 		
 	})
+}
+
+function addFavoriteList(objFraind){
+
+}
+
+function getobjUser(userid){
+	var objUser;
+		VK.api('friends.get',{'fields': 'bdate, photo_50'},function(response){
+				var listFriends = response.response;
+					objUser =  listFriends.filter(function(item){
+					return item.user_id == userid?item:null;
+				})
+				console.log(objUser)
+			})
+		
+	return objUser;
 }

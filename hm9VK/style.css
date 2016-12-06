@@ -28,20 +28,13 @@
 	
 }
 
-/*
-.leftcontentlist{
-	float: left;
-}
-
-.rightcontent{
-	float: right;
-} */
 .wrapcontent{
 	overflow: hidden;
 }
 
 .wrapcontent ul{
 	list-style: none;
+	min-height: 300px;
 	max-height: 300px;
     overflow-y:scroll; 
 }
