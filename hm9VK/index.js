@@ -3,36 +3,44 @@
 	getListFriends()
 	
 	var leftclick = document.getElementById("leftcontentlist");
-	/*leftclick.addEventListener("click",function(event){
-		let thisEl = event.target.parentElement;
-		userid = thisEl.dataset.userid;
-		addFavoriteList(userid,thisEl);
 
-	})*/
 	wrapcontent.addEventListener("click",function(event){
 		var  thisEl = event.target;
+		
 		var thisListUl = thisEl.closest("ul")
-
-		console.log(thisListUl.offsetTop)
-		/*if (!thisEl.closest("a").dataset.userid) {
-			console.log(event.target)
-		}*/
-		var userid = thisEl.closest("li").dataset.userid;
+		var userid = thisEl.closest("li").id;
 		
 		
-		if (thisListUl.id ==="leftlist") {
+		if (thisListUl.id ==="leftlist" && thisEl.tagName === "SPAN") {
 			addFavoriteList(userid,thisEl);
-		}else if(thisListUl.id ==="rightlist"){
+		}else if(thisListUl.id ==="rightlist" && thisEl.tagName === "SPAN"){
 			removeFromFavoritelist(userid,thisEl)
 		}
 	})
 
-
-
+	
 })();
 
+function dragStart(ev) {
+   ev.dataTransfer.effectAllowed='move';
+   ev.dataTransfer.setData("Text", ev.target.getAttribute('id'));   
+   //ev.dataTransfer.setDragImage(ev.target,100,100);
+   return true;
+}
+function dragEnter(ev) {
+   event.preventDefault();
+   return true;
+}
+function dragOver(ev) {
+    event.preventDefault();
+}
 
-
+function dragDrop(ev) {
+   var data = ev.dataTransfer.getData("Text");
+   ev.target.appendChild(document.getElementById(data));
+ 	ev.stopPropagation();
+   return false;
+}
 
 function getListFriends(){ // Загрузка списка друзей
 	var source = document.getElementById("lefttemplate").innerHTML;
@@ -85,7 +93,9 @@ function getListFriends(){ // Загрузка списка друзей
 function addFavoriteList(userid,elem){
 	return new Promise(function(resolve,reject){
 		var elemli = elem.closest("li");
-		rightlist.appendChild(elemli)
+		var icobtn = elemli.getElementsByTagName('SPAN')[1];
+			icobtn.className="glyphicon glyphicon-remove";
+		rightlist.appendChild(elemli);
 		//leftlist.removeChild(elem.closest(".useritem"))
 		/*VK.api('friends.get',{'fields': 'bdate, photo_50'},function(response){
 				var listFriends = response.response;
@@ -124,6 +134,8 @@ function removeFromFavoritelist(userid,elem) { //удаление из спис�
 	return new Promise(function(resolve,reject){
 		var indexinlist = parseInt(elem.closest("li").id,10) +1;
 		var elemli = elem.closest("li");
+		var icobtn = elemli.getElementsByTagName('SPAN')[1];
+			icobtn.className="glyphicon glyphicon-plus";
 		var	allli = leftlist
 		var refli =  leftlist.querySelector('li[id="'+indexinlist+'"]'); // нужно сделать перебор пока ненайдется ближайший сосед;
 		console.log(refli)
