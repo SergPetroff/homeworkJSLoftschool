@@ -32,6 +32,10 @@
 	overflow: hidden;
 }
 
+.wrapcontent>div{
+	width: 50%;
+}
+
 .wrapcontent ul{
 	list-style: none;
 	min-height: 300px;
@@ -44,4 +48,15 @@
 }
 .wrapcontent ul li:hover{
 	background-color: #f1f1f1;
+}
+
+.glyphicon{
+	color: #bebcbc;
+}
+
+.useritem a{
+	top: 11px;
+    float: right;
+    position: relative;
+    left: -10px;
 }

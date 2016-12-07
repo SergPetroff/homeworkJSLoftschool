@@ -12,33 +12,33 @@
 <body>
 
 <div class="row">
-	<div class="col-xs-3"></div>
-	<div class="container col-xs-6">
+	<div class="col-xs-4"></div>
+	<div class="container col-xs-4">
 	
 		<div class="header">
 			<div>Выберете друзей</div>
 		</div>
-		<div class="searchbar">
+		<div id="searchbar" class="searchbar">
 			<div class="leftsearch pull-left">
-				<input type="text" name="leftinput">
+				<input id="leftinput" type="text" name="leftinput">
 			</div>
 				
 			<div class="rightsearch pull-right">
-				<input type="text" name="rightinput">
+				<input id="rightinput" type="text" name="rightinput">
 			</div>
 
 		</div>
-		<div class="wrapcontent">
+		<div id="wrapcontent" class="wrapcontent">
 			<div id="leftcontentlist" class="leftcontent pull-left">
 				<h2>Ваши друзья</h2>
 					<div id="leftwraptemplate">
 						<script id="lefttemplate" type="text/x-handlebars-template">
-						<ul id="leftlist">
+						<ul id="leftlist" ondragenter="return dragEnter(event)" ondrop="return dragDrop(event)" ondragover="return dragOver(event)">
 						{{#each listfriends}}
 							
-							<li><img src="{{photo_50}}" class="img-circle">
+							<li class="useritem" id={{index}} draggable="true"><img src="{{photo_50}}" class="img-circle">
 									<span class="personname">{{last_name}} {{first_name}}</span>
-								<a href="#" class="pool right" data-userid={{user_id}}><span class="glyphicon glyphicon-plus"></span></a>
+								<a href="#" class="pool right" data-userid={{user_id}} ><span class="glyphicon glyphicon-plus"></span></a>
 							</li>
 							
 						{{/each}}
@@ -52,6 +52,7 @@
 					<ul id="rightlist">	
 						
 					</ul>
+					
 					
 			</div>
 		</div>
