@@ -1,3 +1,6 @@
+body{
+	padding-top: 50px;
+}
 .container{
 
 }
@@ -6,6 +9,9 @@
 	background-color:#ff8f6e;
 	border-top-left-radius:20px;
 	border-top-right-radius:20px;
+	font-size: 21px;
+    font-weight: 600;
+    color: white;
 }
 .header div{
 	padding: 15px;
@@ -16,14 +22,25 @@
 	padding: 10px;
 }
 .searchbar input{
+	padding-left: 20px;
 	border-radius: 20px;
+	width: 80%;
+}
+/*.searchbar input::-webkit-input-placeholder{
+	padding-left: 20px;
+}
+*/
+.searchbar label{
+	position: relative;
+    left: 24px;
 }
 .leftsearch{
 	padding-left: 15px;
-	
+	width: 50%;
 }
 
 .rightsearch{
+	width: 50%;
 	padding-right: 15px;
 	
 }
@@ -36,18 +53,28 @@
 	width: 50%;
 }
 
+#leftlist{
+	border-left: solid 1px #f1f1f1;
+}
 .wrapcontent ul{
 	list-style: none;
-	min-height: 300px;
-	max-height: 300px;
+	min-height: 400px;
+	max-height: 400px;
     overflow-y:scroll; 
+    margin-bottom: 0;
 }
 
 .wrapcontent ul li{
 	padding-bottom: 10px;
 }
+.wrapcontent ul>:first-child{
+	padding-top: 10px;
+}
 .wrapcontent ul li:hover{
 	background-color: #f1f1f1;
+}
+.personname{
+	font-weight: 600;
 }
 
 .glyphicon{
@@ -59,4 +86,25 @@
     float: right;
     position: relative;
     left: -10px;
+}
+
+.headerlist{
+	font-weight: 600;
+    font-size: 20px;
+    padding: 10px 20px;
+    border: solid 1px #f1f1f1;
+}
+
+#footer{
+	overflow: hidden; 
+	background-color: #f1f1f1;
+	border-bottom-left-radius:20px;
+	border-bottom-right-radius:20px;
+	padding: 12px;
+}
+
+#savebtn{
+	color: white;
+	float:right;
+	background-color: #ff8f6e;
 }

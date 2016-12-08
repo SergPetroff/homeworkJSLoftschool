@@ -1,9 +1,9 @@
 (function(){
 
+	//загрузка списка
 	getListFriends()
 	
-	var leftclick = document.getElementById("leftcontentlist");
-
+	//Добавление в список по кнопке
 	wrapcontent.addEventListener("click",function(event){
 		var  thisEl = event.target;
 		
@@ -16,15 +16,54 @@
 		}else if(thisListUl.id ==="rightlist" && thisEl.tagName === "SPAN"){
 			removeFromFavoritelist(userid,thisEl)
 		}
-	})
-
-	
+	});
+	// Сохранение данных в localstorage
+	savebtn.addEventListener("click",savelocalstorage)	
 })();
 
+function savelocalstorage(){
+	return new Promise(function(resolve,reject){
+		//сохранение выбранных друзей
+		if(rightlist.getElementsByTagName("li").length >0){
+			// Сохранение выбранных друзей
+			let htmllist = rightlist.innerHTML;
+			localStorage.favoriteListFrainds = htmllist;
+
+			// Сохранение основного списка
+			let CurrentAllList = leftlist.getElementsByTagName("li")
+			let arrayListFrainds = [];
+			
+			for (var i = 0; i < CurrentAllList.length; i++) {
+				arrayListFrainds.push(CurrentAllList[i].dataset.userid)
+			}
+
+			VK.api('friends.get',{'fields': 'bdate, photo_50'},function(response){
+						listFriends = response.response;
+						listFriends.sort(function(a,b){return a.last_name>b.last_name ? 1 : -1})
+						listFriends.map(function(item,index) {return item.index = index});
+
+						listFriends = listFriends.filter(function(item){
+							if (arrayListFrainds.indexOf(item.user_id+"") !== -1) {
+								return item
+							}
+						})
+						localStorage.allListFrainds = JSON.stringify(listFriends);
+				})
+		}else{
+			localStorage.removeItem("favoriteListFrainds");
+			localStorage.removeItem("allListFrainds");
+		}
+		resolve()
+	}).then(function(){
+		window.alert("Данные сохранены!")
+	})
+}
+
+
+//drag and drop
 function dragStart(ev) {
    ev.dataTransfer.effectAllowed='move';
-   ev.dataTransfer.setData("Text", ev.target.getAttribute('id'));   
-   //ev.dataTransfer.setDragImage(ev.target,100,100);
+   ev.dataTransfer.setData("Text", ev.target.getAttribute('id'));
    return true;
 }
 function dragEnter(ev) {
@@ -37,9 +76,18 @@ function dragOver(ev) {
 
 function dragDrop(ev) {
    var data = ev.dataTransfer.getData("Text");
-   ev.target.appendChild(document.getElementById(data));
- 	ev.stopPropagation();
-   return false;
+  	if (document.getElementById(data)) {
+  		ev.target.appendChild(document.getElementById(data));
+ 		ev.stopPropagation();
+
+ 		//меняем plsu на remove
+   		var listli = rightlist.getElementsByTagName('li')
+   		for (var i = 0; i < listli.length; i++) {
+   				listli[i].getElementsByTagName('SPAN')[1].className="glyphicon glyphicon-remove";
+   			}	
+   		return false;	
+ 	}
+
 }
 
 function getListFriends(){ // Загрузка списка друзей
@@ -66,23 +114,48 @@ function getListFriends(){ // Загрузка списка друзей
 				var userdata = response.response[0];
 				
 			})
+			
 			VK.api('friends.get',{'fields': 'bdate, photo_50'},function(response){
-					listFriends = response.response;
+						listFriends = response.response;
+						listFriends.sort(function(a,b){return a.last_name>b.last_name ? 1 : -1})
+						listFriends.map(function(item,index) {
+							return item.index = index;
+						})
+						if (localStorage.allListFrainds) { // Если есть сохраненные данные в localstorage, загружаем оттуда.
+							lefttcontainer.innerHTML = leftttemplateFn({listfriends:JSON.parse(localStorage.allListFrainds)});
+							rightlist.innerHTML = localStorage.favoriteListFrainds;
 
-					listFriends.sort(function(a,b){return a.last_name>b.last_name ? 1 : -1})
-					listFriends.map(function(item,index) {
-						return item.index = index;
-					})
-					lefttcontainer.innerHTML = leftttemplateFn({listfriends:listFriends});
-					resolve(listFriends);
-			})
+						}else{
+							lefttcontainer.innerHTML = leftttemplateFn({listfriends:listFriends});		
+						}
+						
+						resolve(listFriends);
+				})
+			
 			
 		})
-	}).then(function(arrayusers){ // фильтр левого блока
-		searchbar.addEventListener("input",function () {
+	}).then(function(arrayusers){ 
+		searchbar.addEventListener("input",function () { // поиск по основному списку
 			var currInput = event.target;
 			if(currInput.id ==="leftinput"){
 				lefttcontainer.innerHTML = leftttemplateFn({listfriends:filterdata(arrayusers,currInput.value)});
+			}
+			
+		});
+		searchbar.addEventListener("input",function () { // поиск по списку выбранных
+			var currInput = event.target;
+			if(currInput.id ==="rightinput"){
+				var listli = rightlist.getElementsByTagName('li')
+				for (var i = 0; i < listli.length; i++) {
+					let fullusername = listli[i].getElementsByTagName('SPAN')[0].innerHTML;
+					if(fullusername.split(" ")[0].toLocaleLowerCase().indexOf(currInput.value.toLocaleLowerCase())!== -1 ||
+						fullusername.split(" ")[1].toLocaleLowerCase().indexOf(currInput.value.toLocaleLowerCase())!== -1){
+						
+						listli[i].style.display = 'list-item';
+					}else{
+						listli[i].style.display = 'none';
+					}
+				}
 			}
 			
 		})
@@ -96,36 +169,6 @@ function addFavoriteList(userid,elem){
 		var icobtn = elemli.getElementsByTagName('SPAN')[1];
 			icobtn.className="glyphicon glyphicon-remove";
 		rightlist.appendChild(elemli);
-		//leftlist.removeChild(elem.closest(".useritem"))
-		/*VK.api('friends.get',{'fields': 'bdate, photo_50'},function(response){
-				var listFriends = response.response;
-						objUser =  listFriends.filter(function(item){
-						return item.user_id == userid?item:null;
-					})
-
-				resolve(objUser)
-			})*/
-	}).then(function(resolve){
-		/*var elli = document.createElement("li");
-			elli.className = "useritem";
-		var elimguser =document.createElement("img");
-			elimguser.className ="img-circle";
-			elimguser.src = resolve[0].photo_50;
-		var ela = document.createElement("a");
-			//ela.className ="img-circle";
-			ela.href = "#";
-			ela.dataset.userid = resolve[0].user_id;
-		var elpersonname = document.createElement("span");
-			elpersonname.className = "personname";
-			elpersonname.innerHTML = resolve[0].last_name +" "+ resolve[0].first_name;
-		var imgplus = document.createElement("span");
-			imgplus.className = "glyphicon glyphicon-remove";
-		
-		ela.appendChild(imgplus)
-		elli.appendChild(elimguser);
-		elli.appendChild(elpersonname);
-		elli.appendChild(ela)
-		rightlist.appendChild(elli)*/
 		
 	})
 }
@@ -137,11 +180,11 @@ function removeFromFavoritelist(userid,elem) { //удаление из спис�
 		var icobtn = elemli.getElementsByTagName('SPAN')[1];
 			icobtn.className="glyphicon glyphicon-plus";
 		var	allli = leftlist
-		var refli =  leftlist.querySelector('li[id="'+indexinlist+'"]'); // нужно сделать перебор пока ненайдется ближайший сосед;
-		console.log(refli)
+		while(leftlist.querySelector('li[id="'+indexinlist+'"]') === null){ // если записи с тайим ИД нет, то ищем ближайшую.
+			indexinlist++
+		}
+		var refli =  leftlist.querySelector('li[id="'+indexinlist+'"]'); 
 		leftlist.insertBefore(elemli,refli)
-		//console.log(indexinlist,getprevli)
-		//rightlist.removeChild(elem.closest(".useritem"))
 	})
 	
 }
@@ -155,7 +198,9 @@ function filterdata(array, searchval){
 				return array
 			}else{
 				return  array.filter(function(item) {
-					  if(item.last_name.toLocaleLowerCase().indexOf(searchval.toLocaleLowerCase()) !== -1){
+					  if(item.last_name.toLocaleLowerCase().indexOf(searchval.toLocaleLowerCase()) !== -1 ||
+					  	item.first_name.toLocaleLowerCase().indexOf(searchval.toLocaleLowerCase()) !== -1
+					  	){
 						return	item
 						}
 

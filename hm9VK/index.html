@@ -20,35 +20,37 @@
 		</div>
 		<div id="searchbar" class="searchbar">
 			<div class="leftsearch pull-left">
-				<input id="leftinput" type="text" name="leftinput">
+				<label for="leftinput"><span class="glyphicon glyphicon-search"></span></label>
+				<input id="leftinput" type="search" name="leftinput" placeholder="начниет вводить имя друга">
 			</div>
 				
 			<div class="rightsearch pull-right">
-				<input id="rightinput" type="text" name="rightinput">
+				<label for="leftinput"><span class="glyphicon glyphicon-search"></span></label>
+				<input id="rightinput" type="search" name="rightinput" placeholder="начниет вводить имя друга">
 			</div>
 
 		</div>
 		<div id="wrapcontent" class="wrapcontent">
 			<div id="leftcontentlist" class="leftcontent pull-left">
-				<h2>Ваши друзья</h2>
+				<div class="headerlist">Ваши друзья</div>
 					<div id="leftwraptemplate">
 						<script id="lefttemplate" type="text/x-handlebars-template">
 						<ul id="leftlist">
 						{{#each listfriends}}
 							
-							<li class="useritem" id={{index}} draggable="true" ondragstart="return dragStart(event)">
-									<img src="{{photo_50}}" class="img-circle" >
+							<li class="useritem" id={{index}} data-userid={{user_id}} draggable="true" ondragstart="return dragStart(event)">
+									<img src="{{photo_50}}" class="img-circle" draggable="false">
 									<span class="personname">{{last_name}} {{first_name}}</span>
 								<a href="#" class="pool right" data-userid={{user_id}} ><span class="glyphicon glyphicon-plus"></span></a>
 							</li>
 							
 						{{/each}}
 						</ul>
-						</script>
+						</script>	
 					</div>
 			</div>
 			<div id="rightcontent" class="rightcontent pull-right">
-				<h2>Выбранные друзья</h2>
+				<div class="headerlist">Выбранные друзья</div>
 					
 					<ul id="rightlist" ondragenter="return dragEnter(event)" ondrop="return dragDrop(event)" ondragover="return dragOver(event)">	
 						
@@ -56,6 +58,9 @@
 					
 					
 			</div>
+		</div>
+		<div id=footer>
+			<button id="savebtn" class=" btn ">Сохранить</button>
 		</div>
 	</div>
 	<div class="col-xs-3"></div>
