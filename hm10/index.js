@@ -5,10 +5,10 @@
 	function mysqrt(){
 		return this * this
 	}
-	console.log(mysqrt.apply(constCalc.sum(1,2,3)))
-	console.log(mysqrt.apply(constCalc.dif(10,20)))
-	console.log(mysqrt.apply(constCalc.div(2,2)))
-	console.log(mysqrt.apply(constCalc.mul(2,2)))
+	console.log(mysqrt.call(constCalc.sum(1,2,3)))
+	console.log(mysqrt.call(constCalc.dif(10,20)))
+	console.log(mysqrt.call(constCalc.div(2,2)))
+	console.log(mysqrt.call(constCalc.mul(2,2)))
 })()
 
 function calculator(firstNumber){
