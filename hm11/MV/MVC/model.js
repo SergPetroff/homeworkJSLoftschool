@@ -41,7 +41,7 @@ var Model = {
         return this.callApi('groups.get',{extended:1});
     },
     getPhoto:function(){
-        return this.callApi('photos.getAll',{extended:1,count:10})
+        return this.callApi('photos.getAll',{extended:1,count:200})
     },
     getCounCommentPhoto:function(photos){
         return this.callApi('photos.getById',{extended:1,photos:photos})

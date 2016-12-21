@@ -26,6 +26,7 @@ var Controller = {
         return new Promise(function(resolve,reject){
                 Model.getPhoto().then(function(photo){
                   if(Array.isArray(photo)){
+                    photo.splice(0,1)
                     resolve(photo)
                   }
                 })
