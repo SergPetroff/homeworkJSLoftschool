@@ -23,18 +23,40 @@ var Controller = {
         })
     },
     photoRoute:function(){
-        return Model.getPhoto().then(function(photo){
-            console.log(photo) 
-            var testcomment = Model.getCommentPhoto().then(function(ocomment){
-                console.log(ocomment)    
-            })
-           /* for (var i = 0; i < photo.length; i++) {
-                if (typeof photo[i] === 'object') {
-                   
-                }
+        return new Promise(function(resolve,reject){
+                Model.getPhoto().then(function(photo){
+                  if(Array.isArray(photo)){
+                    resolve(photo)
+                  }
+                })
+        }).then(function(arrphoto){
+            let strOwnPid = "";
+            arrphoto.forEach(function(item){
                 
-            }*/
-            results.innerHTML = View.render('photo', {list: photo});
+                if(typeof item === 'object'){
+                    strOwnPid += item.owner_id+"_"+item.pid+",";
+                }
+            })
+
+            return new Promise(function(resolve,reject){
+                Model.getCounCommentPhoto(strOwnPid).then(function(arrcoments){
+                    
+                    arrphoto.forEach(function(itemfoto){
+                        arrcoments.forEach(function(itemcomment){
+                            if (itemfoto.pid ===itemcomment.pid) {
+                                itemfoto.countcomments = itemcomment.comments.count;
+                            }
+                        })
+                    })                    
+                      
+                    resolve(arrphoto)
+                    
+                 })
+            })
+            
+        }).then(function(arrphoto){
+            results.innerHTML = View.render('photo', {list: arrphoto});
         })
+        
     }
 };

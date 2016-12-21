@@ -43,7 +43,7 @@ var Model = {
     getPhoto:function(){
         return this.callApi('photos.getAll',{extended:1,count:10})
     },
-    getCounCommentPhoto:function(photoid){
-        return this.callApi('photos.getById',{photo_id:419429672})
+    getCounCommentPhoto:function(photos){
+        return this.callApi('photos.getById',{extended:1,photos:photos})
     }
 };
